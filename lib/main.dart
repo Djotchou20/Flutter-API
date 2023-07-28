@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'LoginPage.dart';
+import './dashboard.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         ),
         routes: {
           '/': (context) => LoginPage(),
+          '/dashboard.dart': (context) => const Dashboard(),
           '/details': (context) => Details(item: []),
         });
   }

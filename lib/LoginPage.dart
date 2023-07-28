@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'main.dart';
+import 'dashboard.dart';
+// import 'main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -16,7 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController secretController = TextEditingController();
   final String apiUrl =
       'https://testenv.ciphernet.net/ngcomintranetv2/api/v1/auth/getkeys';
-  final String apiKey = 'k840o8ccsw8cswkos084g44w4cgco0ccgkcc08w0';
+  // final String apiKey = 'k840o8ccsw8cswkos084g44w4cgco0ccgkcc08w0';
 
   @override
   void initState() {
@@ -51,13 +52,12 @@ class _LoginPageState extends State<LoginPage> {
       print('Response Body: ${response.body}');
 
       if (response.statusCode == 200 && _apikey.isNotEmpty) {
-        // Save the API key using shared preferences.
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('api_key', _apikey);
 
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => MyHomePage()),
+          MaterialPageRoute(builder: (context) => Dashboard()),
         );
       } else {
         showDialog(
