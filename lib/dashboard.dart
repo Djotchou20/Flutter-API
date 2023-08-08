@@ -160,10 +160,10 @@ class _DashboardState extends State<Dashboard> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Icon(
-                        Icons.more_horiz,
-                        color: Colors.white,
-                      )
+                      // Icon(
+                      //   Icons.more_horiz,
+                      //   color: Colors.white,
+                      // )
                     ],
                   ),
                   SizedBox(
@@ -180,7 +180,7 @@ class _DashboardState extends State<Dashboard> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => MyHomePage()),
+                                builder: (context) => MyHomePage()),
                           );
                         },
                         child: Column(
@@ -215,7 +215,7 @@ class _DashboardState extends State<Dashboard> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const BaseStation()),
+                                builder: (context) => const BaseStation()),
                           );
                         },
                         child: Column(
@@ -348,8 +348,5 @@ class _DashboardState extends State<Dashboard> {
         ),
       ),
     );
-
-    
   }
 }
-

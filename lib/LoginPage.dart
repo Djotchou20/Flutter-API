@@ -10,6 +10,8 @@ class LoginPage extends StatefulWidget {
 
   @override
   _LoginPageState createState() => _LoginPageState();
+
+  static authenticateUser() {}
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -17,7 +19,6 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController secretController = TextEditingController();
   final String apiUrl =
       'https://testenv.ciphernet.net/ngcomintranetv2/api/v1/auth/getkeys';
-  // final String apiKey = 'k840o8ccsw8cswkos084g44w4cgco0ccgkcc08w0';
 
   @override
   void initState() {
