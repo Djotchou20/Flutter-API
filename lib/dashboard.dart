@@ -3,6 +3,7 @@ import 'base_stations.dart';
 import 'exercise_tile.dart';
 import 'main.dart';
 import 'package:intl/intl.dart';
+import 'camera.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -51,7 +52,7 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       backgroundColor: Colors.blue[800],
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.message), label: ''),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
@@ -72,10 +73,10 @@ class _DashboardState extends State<Dashboard> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 20,
                           ),
-                          Text(
+                          const Text(
                             'Hi Admin!',
                             style: TextStyle(
                               color: Colors.white,
@@ -83,7 +84,7 @@ class _DashboardState extends State<Dashboard> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
                           Text(currentDateTime,
@@ -91,7 +92,7 @@ class _DashboardState extends State<Dashboard> {
                         ],
                       ),
 
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
 
@@ -101,8 +102,8 @@ class _DashboardState extends State<Dashboard> {
                           color: Colors.blue[600],
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        padding: EdgeInsets.all(12),
-                        child: Icon(
+                        padding: const EdgeInsets.all(12),
+                        child: const Icon(
                           Icons.notifications,
                           color: Colors.white,
                         ),
@@ -110,7 +111,7 @@ class _DashboardState extends State<Dashboard> {
                     ],
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
 
@@ -120,21 +121,21 @@ class _DashboardState extends State<Dashboard> {
                       color: Colors.blue[600],
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    padding: EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(12),
                     child: Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.search,
                           color: Colors.white,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
                         Expanded(
                           child: TextField(
                             onChanged: filterExercises,
-                            style: TextStyle(color: Colors.white),
-                            decoration: InputDecoration.collapsed(
+                            style: const TextStyle(color: Colors.white),
+                            decoration: const InputDecoration.collapsed(
                               hintText: 'Search',
                               hintStyle: TextStyle(color: Colors.white),
                             ),
@@ -144,12 +145,12 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
 
                   // Engineering
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
@@ -166,7 +167,7 @@ class _DashboardState extends State<Dashboard> {
                       // )
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 25,
                   ),
 
@@ -180,7 +181,7 @@ class _DashboardState extends State<Dashboard> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MyHomePage()),
+                                builder: (context) => const MyHomePage()),
                           );
                         },
                         child: Column(
@@ -190,16 +191,16 @@ class _DashboardState extends State<Dashboard> {
                                   color: Colors.blue[600],
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                padding: EdgeInsets.all(16),
-                                child: Icon(
+                                padding: const EdgeInsets.all(16),
+                                child: const Icon(
                                   Icons.place,
                                   size: 28,
                                   color: Colors.white,
                                 )),
-                            SizedBox(
+                            const SizedBox(
                               height: 8,
                             ),
-                            Text(
+                            const Text(
                               'Site Survey',
                               style: TextStyle(
                                 color: Colors.white,
@@ -225,16 +226,16 @@ class _DashboardState extends State<Dashboard> {
                                   color: Colors.blue[600],
                                   borderRadius: BorderRadius.circular(12),
                                 ),
-                                padding: EdgeInsets.all(16),
-                                child: Icon(
+                                padding: const EdgeInsets.all(16),
+                                child: const Icon(
                                   Icons.router,
                                   size: 28,
                                   color: Colors.white,
                                 )),
-                            SizedBox(
+                            const SizedBox(
                               height: 8,
                             ),
-                            Text('BaseStations',
+                            const Text('BaseStations',
                                 style: TextStyle(
                                   color: Colors.white,
                                 )),
@@ -250,16 +251,16 @@ class _DashboardState extends State<Dashboard> {
                                 color: Colors.blue[600],
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              padding: EdgeInsets.all(16),
-                              child: Icon(
+                              padding: const EdgeInsets.all(16),
+                              child: const Icon(
                                 Icons.build,
                                 size: 28,
                                 color: Colors.white,
                               )),
-                          SizedBox(
+                          const SizedBox(
                             height: 8,
                           ),
-                          Text('Installtions',
+                          const Text('Installtions',
                               style: TextStyle(
                                 color: Colors.white,
                               )),
@@ -267,44 +268,54 @@ class _DashboardState extends State<Dashboard> {
                       ),
 
                       // Orders
-                      Column(
-                        children: [
-                          Container(
-                              decoration: BoxDecoration(
-                                color: Colors.blue[600],
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              padding: EdgeInsets.all(16),
-                              child: Icon(
-                                Icons.shopping_cart,
-                                size: 28,
-                                color: Colors.white,
-                              )),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Text('Orders',
-                              style: TextStyle(
-                                color: Colors.white,
-                              )),
-                        ],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Camera()),
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.blue[600],
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                padding: const EdgeInsets.all(16),
+                                child: const Icon(
+                                  Icons.camera_alt,
+                                  size: 28,
+                                  color: Colors.white,
+                                )),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            const Text('Camera',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 25,
             ),
             Expanded(
               child: Container(
-                  padding: EdgeInsets.all(25),
+                  padding: const EdgeInsets.all(25),
                   color: Colors.grey[200],
                   child: Center(
                       child: Column(children: [
                     //Reports
-                    Row(
+                    const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text('REPORTS',
@@ -315,13 +326,13 @@ class _DashboardState extends State<Dashboard> {
                         // Icon(Icons.more_horiz),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
 
                     // listview of exercises
                     Expanded(
-                      child: ListView(children: [
+                      child: ListView(children: const [
                         ExerciseTile(
                           icon: Icons.place,
                           exerciseName: 'My Survey',

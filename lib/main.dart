@@ -1,9 +1,16 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'LoginPage.dart';
 import './dashboard.dart';
 import './base_stations.dart';
+import 'camera.dart';
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:geolocator/geolocator.dart';
 
 void main() {
   runApp(const MyApp());
@@ -127,16 +134,53 @@ class Details extends StatefulWidget {
 
 class _DetailsState extends State<Details> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late Map<String, dynamic> formData;
+  late Map<String, dynamic> formData = {};
+  XFile? capturedImage;
+  String coordinate = '';
+  String latitide = '';
+  String longitude = '';
 
   @override
   void initState() {
     super.initState();
     formData = Map.from(widget.item);
+    _getLocation();
   }
 
   void _saveForm() {
     if (_formKey.currentState!.validate()) {}
+  }
+
+  Future<void> openCamera() async {
+    final XFile? image = await ImagePicker().pickImage(
+      source: ImageSource.camera,
+    );
+
+    if (image != null) {
+      setState(() {
+        formData['image1'] =
+            image.path; // Update the form data with the image path
+      });
+    }
+  }
+
+  Future<void> _getLocation() async {
+    final PermissionStatus locationStatus = await Permission.location.request();
+    if (locationStatus.isGranted) {
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+      setState(() {
+        coordinate = position.toString();
+        latitide = position.latitude.toString();
+        longitude = position.longitude.toString();
+      });
+    } else if (locationStatus.isDenied) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content:
+            Text('Location permission is required for effective performance.'),
+      ));
+    }
   }
 
   @override
@@ -159,9 +203,57 @@ class _DetailsState extends State<Details> {
             padding: const EdgeInsets.all(8.0),
             children: [
               SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _saveForm,
-                child: Text('Submit'),
+              capturedImage != null
+                  ? Image.memory(
+                      capturedImage! as Uint8List, // Display the captured image
+                      width: 300,
+                      height: 250,
+                      fit: BoxFit.cover,
+                    )
+                  : Container(),
+              SizedBox(height: 20),
+              TextFormField(
+                readOnly: true,
+                initialValue: formData['image1'] ?? '',
+                decoration: InputDecoration(
+                  labelText: 'Image',
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.camera_alt),
+                    onPressed: openCamera,
+                  ),
+                ),
+                onChanged: (value) {
+                  formData['image1'] = value;
+                },
+              ),
+              const SizedBox(height: 20),
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: _getLocation,
+                      child: CircleAvatar(
+                        child: Icon(Icons.my_location),
+                      ),
+                    ),
+                    // const SizedBox(height: 30),
+                    Text(
+                      coordinate,
+                      style: TextStyle(fontSize: 18, color: Colors.orange),
+                    ),
+                    // const SizedBox(height: 15),
+                    Text(
+                      'Latitude: $latitide',
+                      style: TextStyle(fontSize: 18, color: Colors.orange),
+                    ),
+                    // const SizedBox(height: 15),
+                    Text(
+                      'Longitude: $longitude',
+                      style: TextStyle(fontSize: 18, color: Colors.orange),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: 10),
               TextFormField(

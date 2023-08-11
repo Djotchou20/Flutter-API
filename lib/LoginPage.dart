@@ -47,29 +47,29 @@ class _LoginPageState extends State<LoginPage> {
       );
 
       final Map<String, dynamic> responseData = jsonDecode(response.body);
-      final String _apikey = responseData['api_key'];
+      final String apikey = responseData['api_key'];
 
       print('Response Status Code: ${response.statusCode}');
       print('Response Body: ${response.body}');
 
-      if (response.statusCode == 200 && _apikey.isNotEmpty) {
+      if (response.statusCode == 200 && apikey.isNotEmpty) {
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('api_key', _apikey);
+        prefs.setString('api_key', apikey);
 
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Dashboard()),
+          MaterialPageRoute(builder: (context) => const Dashboard()),
         );
       } else {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: Text('Authentication Failed'),
-            content: Text('Invalid credentials. Please try again.'),
+            title: const Text('Authentication Failed'),
+            content: const Text('Invalid credentials. Please try again.'),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           ),
@@ -80,12 +80,12 @@ class _LoginPageState extends State<LoginPage> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Error'),
-          content: Text('Incorrect Username or Password.'),
+          title: const Text('Error'),
+          content: const Text('Incorrect Username or Password.'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         ),
@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: const Text('Login'),
       ),
       body: Center(
         child: Padding(
@@ -107,19 +107,19 @@ class _LoginPageState extends State<LoginPage> {
             children: [
               TextField(
                 controller: usernameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Username',
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextField(
                 controller: secretController,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Password',
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               ElevatedButton(
                 onPressed: () {
                   authenticateUser(
@@ -127,7 +127,7 @@ class _LoginPageState extends State<LoginPage> {
                     secretController.text,
                   );
                 },
-                child: Text('Login'),
+                child: const Text('Login'),
               ),
             ],
           ),
