@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'base_stations.dart';
+import 'display.dart';
 import 'exercise_tile.dart';
 import 'main.dart';
 import 'package:intl/intl.dart';
@@ -244,27 +245,36 @@ class _DashboardState extends State<Dashboard> {
                       ),
 
                       // Installations
-                      Column(
-                        children: [
-                          Container(
-                              decoration: BoxDecoration(
-                                color: Colors.blue[600],
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              padding: const EdgeInsets.all(16),
-                              child: const Icon(
-                                Icons.build,
-                                size: 28,
-                                color: Colors.white,
-                              )),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          const Text('Installtions',
-                              style: TextStyle(
-                                color: Colors.white,
-                              )),
-                        ],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Display()),
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.blue[600],
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                padding: const EdgeInsets.all(16),
+                                child: const Icon(
+                                  Icons.build,
+                                  size: 28,
+                                  color: Colors.white,
+                                )),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            const Text('Installtions',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                )),
+                          ],
+                        ),
                       ),
 
                       // Orders

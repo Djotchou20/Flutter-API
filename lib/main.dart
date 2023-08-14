@@ -1,16 +1,18 @@
 import 'dart:convert';
-import 'dart:typed_data';
+// import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'LoginPage.dart';
 import './dashboard.dart';
 import './base_stations.dart';
-import 'camera.dart';
+// import 'camera.dart';
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:geolocator/geolocator.dart';
+import 'display.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'myform.dart';
 
 void main() {
   runApp(const MyApp());
@@ -98,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Details(item: data[index])),
+                    builder: (context) => MyForm(data: const {},)),
               );
             },
             child: Card(
@@ -123,6 +125,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+
+
+
+
+
 class Details extends StatefulWidget {
   final Map<String, dynamic> item;
 
@@ -135,10 +142,16 @@ class Details extends StatefulWidget {
 class _DetailsState extends State<Details> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late Map<String, dynamic> formData = {};
-  XFile? capturedImage;
   String coordinate = '';
   String latitide = '';
   String longitude = '';
+  XFile? selectedImage;
+  String selectedValue = '';
+  List<String> fetchedData = [];
+  bool showFields = false;
+
+  String selectedValue1 = 'Yes';
+  List<String> dropdownItems = ['Yes', 'No'];
 
   @override
   void initState() {
@@ -158,8 +171,7 @@ class _DetailsState extends State<Details> {
 
     if (image != null) {
       setState(() {
-        formData['image1'] =
-            image.path; // Update the form data with the image path
+        formData['image1'] = image.path;
       });
     }
   }
@@ -183,6 +195,28 @@ class _DetailsState extends State<Details> {
     }
   }
 
+  Future<String> getApiKey() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('api_key') ?? '';
+  }
+
+  Future<void> fetchDataFromAPI() async {
+    try {
+      final response = await http.get(Uri.parse(
+          'https://testenv.ciphernet.net/ngcomintranetv2/api/v1/sitesurveyreq/getbasestations'));
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        setState(() {
+          fetchedData = data.map((item) => item.toString()).toList();
+        });
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -202,12 +236,47 @@ class _DetailsState extends State<Details> {
           child: ListView(
             padding: const EdgeInsets.all(8.0),
             children: [
-              SizedBox(height: 20),
-              capturedImage != null
-                  ? Image.memory(
-                      capturedImage! as Uint8List, // Display the captured image
-                      width: 300,
-                      height: 250,
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    showFields = !showFields;
+                  });
+                },
+                // child: DropdownButton<String>(
+                //   value: selectedValue1,
+                //   onChanged: (newValue) {
+                //     setState(() {
+                //       selectedValue1 = newValue!;
+                //     });
+                //   },
+                //   items: dropdownItems.map((String value) {
+                //     return DropdownMenuItem<String>(
+                //       value: value,
+                //       child: Text(value),
+                //     );
+                //   }).toList(),
+                // ),
+                child: Text(showFields ? 'YES' : 'NO'),
+              ),
+              Visibility(
+                visible: showFields,
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: TextFormField(
+                    decoration: InputDecoration(labelText: 'Visible Field'),
+                  ),
+                ),
+              ),
+              
+              
+              // SizedBox(height: 20),
+              // Text('Selected Value: $selectedValue'),
+              const SizedBox(height: 60),
+              selectedImage != null
+                  ? Image.file(
+                      File(selectedImage!.path),
+                      width: 200,
+                      height: 200,
                       fit: BoxFit.cover,
                     )
                   : Container(),
@@ -227,6 +296,26 @@ class _DetailsState extends State<Details> {
                 },
               ),
               const SizedBox(height: 20),
+              DropdownButton<String>(
+                value: selectedValue,
+                items: fetchedData.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (newValue) {
+                  setState(() {
+                    selectedValue = newValue!;
+                  });
+                },
+              ),
+              TextFormField(),
+              ElevatedButton(
+                  onPressed: () {
+                    Display();
+                  },
+                  child: Icon(Icons.camera_alt)),
               Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
